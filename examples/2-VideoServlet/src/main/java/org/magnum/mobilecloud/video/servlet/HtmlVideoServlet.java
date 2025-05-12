@@ -1,14 +1,14 @@
 
 package org.magnum.mobilecloud.video.servlet;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -27,12 +27,13 @@ import java.util.List;
  */
 public class HtmlVideoServlet extends HttpServlet // Servlets should inherit HttpServlet
 {
-	private static final long serialVersionUID = 1L;
+	@Serial
+    private static final long serialVersionUID = 1L;
 	
 	public static final String VIDEO_ADDED = "Video added.";
     // An in-memory list that the servlet uses to store the
     // videos that are sent to it by clients
-    private List<Video> videos = new java.util.concurrent.CopyOnWriteArrayList<Video>();
+    private final List<Video> videos = new java.util.concurrent.CopyOnWriteArrayList<>();
     
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -115,16 +116,18 @@ public class HtmlVideoServlet extends HttpServlet // Servlets should inherit Htt
         long duration = -1;
         try{
             duration = Long.parseLong(durationStr);
-        }catch(NumberFormatException e){
+
+        } catch (NumberFormatException e){
             // The client sent us a duration value that wasn't a number!
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid duration");
         }
 
         // Now, the servlet has to look at each request parameter that the
         // client was expected to provide and make sure that it isn't null,
         // empty, etc.
         if (name == null || url == null || durationStr == null
-                || name.trim().length() < 1 || url.trim().length() < 10
-                || durationStr.trim().length() < 1
+                || name.trim().isEmpty() || url.trim().length() < 10
+                || durationStr.trim().isEmpty()
                 || duration <= 0) {
             
             // If the parameters pass our basic validation, we need to 
@@ -132,8 +135,8 @@ public class HtmlVideoServlet extends HttpServlet // Servlets should inherit Htt
             // a hint as to what it got wrong.
             resp.setContentType("text/html");
             resp.sendError(400, "Missing ['name','duration','url'].");
-        } 
-        else {
+
+        } else {
             // It looks like the client provided all of the data that
             // we need, use that data to construct a new Video object
             Video v = new Video(name, url, duration);

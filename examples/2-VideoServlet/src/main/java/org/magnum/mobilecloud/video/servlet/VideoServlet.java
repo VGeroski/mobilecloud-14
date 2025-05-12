@@ -1,9 +1,9 @@
 package org.magnum.mobilecloud.video.servlet;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,10 +28,10 @@ public class VideoServlet extends HttpServlet // Servlets should inherit HttpSer
 	public static final String VIDEO_ADDED = "Video added.";
 	// An in-memory list that the servlet uses to store the
 	// videos that are sent to it by clients
-	private List<Video> videos = new ArrayList<Video>();
+	private final List<Video> videos = new ArrayList<>();
 
 	/**
-	 * This method processes all of the HTTP GET requests routed to the
+	 * This method processes all the HTTP GET requests routed to the
 	 * servlet by the web container. This method loops through the lists
 	 * of videos that have been sent to it and generates a plain/text 
 	 * list of the videos that is sent back to the client.
@@ -50,7 +50,7 @@ public class VideoServlet extends HttpServlet // Servlets should inherit HttpSer
 		// response body that is going to be sent to the client.
 		PrintWriter sendToClient = resp.getWriter();
 		
-		// Loop through all of the stored videos and print them out
+		// Loop through all the stored videos and print them out
 		// for the client to see.
 		for (Video v : this.videos) {
 			
@@ -64,11 +64,11 @@ public class VideoServlet extends HttpServlet // Servlets should inherit HttpSer
 	/**
 	 * This method handles all HTTP POST requests that are routed to the
 	 * servlet by the web container.
-	 * 
+	 * <p>
 	 * Sending a post to the servlet with 'name', 'duration', and 'url' 
 	 * parameters causes a new video to be created and added to the list of 
 	 * videos. 
-	 * 
+	 * <p>
 	 * If the client fails to send one of these parameters, the servlet generates 
 	 * an HTTP error 400 (Bad request) response indicating that a required request
 	 * parameter was missing.
@@ -88,8 +88,10 @@ public class VideoServlet extends HttpServlet // Servlets should inherit HttpSer
 		long duration = -1;
 		try{
 			duration = Long.parseLong(durationStr);
-		}catch(NumberFormatException e){
+
+		} catch (NumberFormatException e){
 			// The client sent us a duration value that wasn't a number!
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid duration");
 		}
 
 		// Make sure and set the content-type header so that the client knows
@@ -100,17 +102,17 @@ public class VideoServlet extends HttpServlet // Servlets should inherit HttpSer
 		// client was expected to provide and make sure that it isn't null,
 		// empty, etc.
 		if (name == null || url == null || durationStr == null
-				|| name.trim().length() < 1 || url.trim().length() < 10
-				|| durationStr.trim().length() < 1
+				|| name.trim().isEmpty() || url.trim().length() < 10
+				|| durationStr.trim().isEmpty()
 				|| duration <= 0) {
 			
 			// If the parameters pass our basic validation, we need to 
 			// send an HTTP 400 Bad Request to the client and give it
 			// a hint as to what it got wrong.
-			resp.sendError(400, "Missing ['name','duration','url'].");
-		} 
-		else {
-			// It looks like the client provided all of the data that
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing ['name','duration','url'].");
+
+		} else {
+			// It looks like the client provided all the data that
 			// we need, use that data to construct a new Video object
 			Video v = new Video(name, url, duration);
 			
@@ -122,5 +124,4 @@ public class VideoServlet extends HttpServlet // Servlets should inherit HttpSer
 			resp.getWriter().write(VIDEO_ADDED);
 		}
 	}
-
 }

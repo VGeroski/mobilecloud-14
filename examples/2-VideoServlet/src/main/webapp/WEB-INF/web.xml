@@ -42,4 +42,4 @@
         <servlet-name>HtmlVideoServlet</servlet-name>
         <url-pattern>/view/video</url-pattern>
     </servlet-mapping>
-</web-app>    
+</web-app>
