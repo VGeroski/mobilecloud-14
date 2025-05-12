@@ -1,11 +1,11 @@
 package org.magnum.mobilecloud.servlet;
 
-import java.io.IOException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * An example of a very simple servlet that looks for a single request
@@ -20,7 +20,7 @@ public class EchoServlet extends HttpServlet // Servlets should inherit from Htt
 
 	/**
 	 * All HTTP GET requests that are routed to the servlet are handled by
-	 * this method. All of the routing information about which requests
+	 * this method. All the routing information about which requests
 	 * should be sent to this servlet are handled in the web.xml file
 	 * (see: src/main/webapp/WEB-INF/web.xml)
 	 * 
@@ -34,14 +34,14 @@ public class EchoServlet extends HttpServlet // Servlets should inherit from Htt
 		// result.
 		resp.setContentType("text/plain");
 		
-		// Look inside of the HTTP request for either a query parameter or
+		// Look inside the HTTP request for either a query parameter or
 		// a url encoded form parameter in the body that is named "msg"
 		String msg = req.getParameter("msg");
 		
 		// http://foo.bar?msg=asdf
 		
 		// Echo a response back to the client with the msg that was sent
-		resp.getWriter().write("Echo:"+ msg);
+		resp.getWriter().write("Echo: "+ msg);
 	}
 
 	/*
