@@ -1,15 +1,14 @@
 package org.magnum.mobilecloud.client.test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.magnum.mobilecloud.video.client.VideoSvcApi;
 import org.magnum.mobilecloud.video.controller.Video;
+import retrofit2.Retrofit;
 
-import retrofit.RestAdapter;
-import retrofit.RestAdapter.LogLevel;
 
 /**
  * 
@@ -43,9 +42,8 @@ public class VideoSvcClientApiTest {
 	 * methods into HTTP requests on the server. Parameters / return
 	 * values are being marshalled to/from JSON.
 	 */
-	private VideoSvcApi videoService = new RestAdapter.Builder()
-			.setEndpoint(TEST_URL)
-			.setLogLevel(LogLevel.FULL)
+	private VideoSvcApi videoService = new Retrofit.Builder()
+			.baseUrl(TEST_URL)
 			.build()
 			.create(VideoSvcApi.class);
 

@@ -54,7 +54,7 @@ public class Video {
 	@Override
 	public int hashCode() {
 		// Google Guava provides great utilities for hashing 
-		return Objects.hashCode(name,url,duration);
+		return Objects.hashCode(name, url, duration);
 	}
 
 	/**

@@ -1,10 +1,10 @@
 package org.magnum.mobilecloud.controller.test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.magnum.mobilecloud.video.controller.Video;
 import org.magnum.mobilecloud.video.controller.VideoSvc;
 

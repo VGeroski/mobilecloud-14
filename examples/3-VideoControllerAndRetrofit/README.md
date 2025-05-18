@@ -25,7 +25,7 @@ Eclipse->Run As->JUnit Test (make sure that you run the application first!)
 
 Notice how much has changed from the VideoServlet version of this cloud service:
 
-1. The web.xml file has been eliminated and we just have Application.java now
+1. The web.xml file has been eliminated, and we just have Application.java now
 2. Our VideoSvc has been dramatically simplified compared to the past VideoServlet and
    now relies on Spring to automatically marshall/unmarshall data sent to/from the client.
 3. We have a type-safe interface for interacting with our VideoSvc from a client. This
