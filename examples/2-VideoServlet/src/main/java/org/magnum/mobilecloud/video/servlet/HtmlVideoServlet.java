@@ -64,7 +64,7 @@ public class HtmlVideoServlet extends HttpServlet // Servlets should inherit Htt
             "<td style='text-align: right;' colspan=2><input type='submit' value='Add Video' /></td>" +
             "</tr></table></fieldset></form>");
         
-        // Loop through all of the stored videos and print them out
+        // Loop through all the stored videos and print them out
         // for the client to see.
         for (Video v : this.videos) {
             
